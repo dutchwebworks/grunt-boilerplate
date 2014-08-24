@@ -3,6 +3,10 @@
   "author": "Dennis Burger <dennis@dutchwebworks.nl>",
   "version": "1.0.0",
   "main": "gruntfile.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dutchwebworks/grunt-boilerplate.git"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-browser-sync": "~1.3.6",

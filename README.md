@@ -13,8 +13,11 @@ This is a **starter web boilerplate** using Grunt as a build system. It contains
 * A Grunt **watcher** to automatically **(re)compile Sass** on the fly and (Css inject) **refresh the connected browsers** using NodeJS `browserSync`.
 * A Grunt **cleanup** task, to remove intermediate reduntant build files.
 
-
 This can also be used to connect **multiple webbrowsers and mobile / tablet devices**. Thanks to NodeJS `browserSync` all connected (device) webbrowsers, on the same local (or wifi) network, will refresh automatically. **Scroll- link- and click-actions are synced** between the connected devices and webbrowsers.
+
+### Github issue tracking
+
+Issue's and questions can be reported and tracked on the [Github issue page](https://github.com/dutchwebworks/grunt-boilerplate/issues).
 
 ## One-time setup
 
