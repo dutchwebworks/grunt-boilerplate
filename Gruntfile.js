@@ -1,5 +1,6 @@
 /*
 	Dutchwebworks Grunt boilerplate (2014)
+	https://github.com/dutchwebworks/grunt-boilerplate
 */
 
 module.exports = function(grunt) {
@@ -8,9 +9,11 @@ module.exports = function(grunt) {
 	1. Load all Grunt dependency NPM packages listed in `package.json`
 	**********************************************************************/
 
+	// Grunt load tasks
+	// https://www.npmjs.org/package/load-grunt-tasks
 	require('load-grunt-tasks')(grunt, {
-		config: './package.json',							// Json file to read
-		scope: 'devDependencies'							// Only autoload Grunt tasks inside `devDependencies`
+		config: './package.json',
+		scope: 'devDependencies'
 	});
 
 	/**********************************************************************
@@ -18,9 +21,9 @@ module.exports = function(grunt) {
 	**********************************************************************/
 
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('./package.json'),			// Json file to read
-		meta: {												// List of meta-data used by other tasks like file banners
-			banner: '/*!\n' +								// Banner info prefixed to minified files (see `package.json`)
+		pkg: grunt.file.readJSON('./package.json'),
+		meta: {
+			banner: '/*!\n' +
 				' * ' + 'Name: <%= pkg.name %>\n' +
 				' * ' + 'Author: <%= pkg.author %>\n' +
 				' * ' + 'Version: <%= pkg.version %>\n' +
@@ -28,69 +31,84 @@ module.exports = function(grunt) {
 				' */\n'
 			,
 		},
+
+		// Grunt watch
+		// https://www.npmjs.org/package/grunt-contrib-watch
 		watch: {
 			scss: {
 				options: {
 					spawn: false
 				},
-				files: './sass/**/*.scss',					// `Watch` *.scss files, when changes are detected run the task(s) below
-				tasks: ['sass:dev']							// Using the `newer` (plugin) as prefix: it; only (re)compiles files that have actually changed
+				files: './sass/**/*.scss',
+				tasks: ['sass:dev']
 			}
 		},
+
+		// Grunt libsass
+		// https://www.npmjs.org/package/grunt-sass
 		sass: {
-			dev: {											// For local debug development with Css sourcemap
+			dev: {
 				options: {
-					outputStyle: 'expanded',				// Sass output style
-					sourceMap: true,						// Enable Css sourcemaps
+					outputStyle: 'expanded',
+					sourceMap: true,
 				},
 				files: [{
-					expand: true,							// Enable dynamic directory expansion
-					cwd: './sass',							// Change to this working directory
-					src: ['*.scss'],						// Globbing pattern to match files
-					dest: './css',							// Destination directory
-					ext: '.css',							// Destination files will have this extension
+					expand: true,
+					cwd: './sass',
+					src: ['*.scss'],
+					dest: './css',
+					ext: '.css',
 				}]
 			},
-			dist: {											// For distribution to production server, no Css sourcemap
+			dist: {
 				options: {
-					outputStyle: 'expanded',				// Sass output style
-					sourceMap: false,						// Enable Css sourcemaps
+					outputStyle: 'expanded',
+					sourceMap: false,
 				},
 				files: [{
-					expand: true,							// Enable dynamic directory expansion
-					cwd: './sass',							// Change to this working directory
-					src: ['*.scss'],						// Globbing pattern to match files
-					dest: './css',							// Destination directory
-					ext: '.css',							// Destination files will have this extension
+					expand: true,
+					cwd: './sass',
+					src: ['*.scss'],
+					dest: './css',
+					ext: '.css',
 				}]
 			}
 		},
+
+		// Grunt contrib cssmin
+		// https://www.npmjs.org/package/grunt-contrib-cssmin
 		cssmin: {
 			combine: {
 				options: {
 					banner: '<%= meta.banner %>'
 				},
 				files: {
-					'./css/min/style.css': [				// First list the single destination minified output filename, then list the files to be combined (in order) into this minfied filename
+					'./css/min/style.css': [
 						'./css/style.css'
 						// './css/another.css'
 					]
 				}
 			}
 		},
+
+		// Grunt imagemin
+		// https://www.npmjs.org/package/grunt-contrib-imagemin
 		imagemin: {
 			dynamic: {
 				options: {
 					optimizationLevel: 3
 				},
 				files: [{
-					expand: true,							// Enable dynamic directory expansion
-					cwd: './img',							// Change to this working directory
-					src: ['./**/*.{png,jpg,gif}'],			// Globbing pattern to match files
-					dest: './img'							// Destination directory
+					expand: true,
+					cwd: './img',
+					src: ['./**/*.{png,jpg,gif}'],
+					dest: './img'
 				}]				
 			}
 		},
+
+		// Grunt svgmin
+		// https://www.npmjs.org/package/grunt-svgmin
 		svgmin: {
 			options: {
 				plugins: [{
@@ -100,66 +118,78 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				files: [{
-					expand: true,							// Enable dynamic directory expansion
-					cwd: './img',							// Change to this working directory
-					src: ['./**/*.svg'],					// Globbing pattern to match files
-					dest: './img'							// Destination directory
-					// ext: '.min.svg'						// Destination file extension
+					expand: true,
+					cwd: './img',
+					src: ['./**/*.svg'
+					dest: './img'
+					// ext: '.min.svg
 				}]
 			}
 		},
+
+		// Grunt jshint
+		// https://www.npmjs.org/package/grunt-contrib-jshint
 		jshint: {
 			options: {
-				jshintrc: ".jshintrc"						// Use the `.jshintrc` file for reading settings for Javascript linting
+				jshintrc: ".jshintrc"
 			},
 			target: {
-				src: './js/*.js'							// ... also uses `.jshintignore` file for ignored Javascript files like libraries
+				src: './js/*.js'
 			}
 		},
+
+		// Grunt concat
+		// https://www.npmjs.org/package/grunt-contrib-concat
 		concat: {
 			options: {
 				separator: ';'
 			},
 			js: {
-				src: [										// List of files, in order, to be combined to output file
+				src: [
 					'./js/libs/jquery-2.1.0.js',
 					'./js/libs/modernizr-2.7.1.js',
 					'./js/common.js'
 				],
-				dest: './js/min/common.concat.js'			// The output filename
+				dest: './js/min/common.concat.js'
 			}
 		},
+
+		// Grunt uglify
+		// https://www.npmjs.org/package/grunt-contrib-uglify
 		uglify: {
 			options: {
 				banner: '<%= meta.banner %>'
 			},
 			common: {
 				options: {
-					// sourceMap: true,						// Output sourcemap
-					sourceMapName: './js/common.js.map'		// Sourcemap filename
+					// sourceMap: true,
+					sourceMapName: './js/common.js.map'
 				},
-				src: './js/min/common.concat.js',			// Usually the output file of the `concat` task above
-				dest: './js/min/common.js',					// The output file
+				src: './js/min/common.concat.js',
+				dest: './js/min/common.js',	
 			}
 		},
+
+		// Grunt browser-sync
+		// https://www.npmjs.org/package/grunt-browser-sync
 		browserSync: {
 			dev: {
 				options: {
-					watchTask: true,						// When using other Grunt `watch` tasks, don't let browserSync stop Grunt here, continue to other Grunt tasks
+					watchTask: true,
 					debugInfo: true,
 					excludedFileTypes: ["map"],
-					ghostMode: {							// Sync. these events to all connected webbrowsers
+					ghostMode: {
 						clicks: true,
 						scroll: true,
 						links: true,
 						forms: false
 					},
-					// proxy: 'grunt-test.local.cassius.nl'	// Proxy requests to locally configured webserver vhost (like Apache / IIS)
-					server: {								// Use either a `server` or `proxy`
-						baseDir: './'						// Directory to serve to the webbrowsers
+					// proxy: 'grunt-test.local.cassius.nl'
+					server: {
+						baseDir: './'
 					}
 				},	
-				bsFiles: {									// 'Watch' these files for changes, then reload connected webbrowsers
+				bsFiles: {
 					src: [
 						'./css/**/*.css',
 						'./js/**/*.js',
@@ -169,7 +199,10 @@ module.exports = function(grunt) {
 				}				
 			}
 		},
-		clean: {											// Remove these (dev / obsolete) files
+
+		// Grunt clean
+		// https://www.npmjs.org/package/grunt-contrib-clean
+		clean: {
 			cssmap: {
 				src: ['./css/**/*.map'],
 				filter: 'isFile'
