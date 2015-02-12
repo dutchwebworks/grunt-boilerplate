@@ -176,14 +176,6 @@ module.exports = function(grunt) {
 			dev: {
 				options: {
 					watchTask: true,
-					debugInfo: true,
-					excludedFileTypes: ["map"],
-					ghostMode: {
-						clicks: true,
-						scroll: true,
-						links: true,
-						forms: false
-					},
 					// proxy: 'grunt-test.local.cassius.nl'
 					server: {
 						baseDir: './'
