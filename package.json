@@ -18,7 +18,7 @@
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-newer": "^0.7.0",
-    "grunt-sass": "^0.17.0",
+    "grunt-sass": "^0.18.0",
     "grunt-svgmin": "^2.0.0",
     "load-grunt-tasks": "^1.0.0"
   }
