@@ -1,5 +1,5 @@
 /*
-	Dutchwebworks Grunt boilerplate (2014)
+	Dutchwebworks Grunt boilerplate, march 2015
 	https://github.com/dutchwebworks/grunt-boilerplate
 */
 
@@ -9,15 +9,14 @@ module.exports = function(grunt) {
 	1. Load all Grunt dependency NPM packages listed in `package.json`
 	**********************************************************************/
 
-	// Grunt load tasks
-	// https://www.npmjs.org/package/load-grunt-tasks
+	// Grunt load tasks https://www.npmjs.org/package/load-grunt-tasks
 	require('load-grunt-tasks')(grunt, {
 		config: './package.json',
 		scope: 'devDependencies'
 	});
 
 	/**********************************************************************
-	2. Configure Grunt tasks
+	2. Configure Grunt tasks and their targets
 	**********************************************************************/
 
 	grunt.initConfig({
@@ -32,8 +31,7 @@ module.exports = function(grunt) {
 			,
 		},
 
-		// Grunt watch
-		// https://www.npmjs.org/package/grunt-contrib-watch
+		// Grunt watch https://www.npmjs.org/package/grunt-contrib-watch
 		watch: {
 			scss: {
 				options: {
@@ -44,8 +42,7 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Grunt libsass
-		// https://www.npmjs.org/package/grunt-sass
+		// Grunt libsass https://www.npmjs.org/package/grunt-sass
 		sass: {
 			dev: {
 				options: {
@@ -75,15 +72,14 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Grunt contrib cssmin
-		// https://www.npmjs.org/package/grunt-contrib-cssmin
+		// Grunt contrib cssmin https://www.npmjs.org/package/grunt-contrib-cssmin
 		cssmin: {
-			combine: {
-				options: {
-					banner: '<%= meta.banner %>'
-				},
+			options: {
+				banner: '<%= meta.banner %>'
+			},
+			style: {
 				files: {
-					'./css/min/style.css': [
+					'./css/style.min.css': [
 						'./css/style.css'
 						// './css/another.css'
 					]
@@ -91,8 +87,7 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Grunt imagemin
-		// https://www.npmjs.org/package/grunt-contrib-imagemin
+		// Grunt imagemin https://www.npmjs.org/package/grunt-contrib-imagemin
 		imagemin: {
 			dynamic: {
 				options: {
@@ -107,8 +102,7 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Grunt svgmin
-		// https://www.npmjs.org/package/grunt-svgmin
+		// Grunt svgmin https://www.npmjs.org/package/grunt-svgmin
 		svgmin: {
 			options: {
 				plugins: [{
@@ -127,8 +121,7 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Grunt jshint
-		// https://www.npmjs.org/package/grunt-contrib-jshint
+		// Grunt jshint https://www.npmjs.org/package/grunt-contrib-jshint
 		jshint: {
 			options: {
 				jshintrc: ".jshintrc"
@@ -138,8 +131,7 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Grunt concat
-		// https://www.npmjs.org/package/grunt-contrib-concat
+		// Grunt concat https://www.npmjs.org/package/grunt-contrib-concat
 		concat: {
 			options: {
 				separator: ';'
@@ -150,12 +142,11 @@ module.exports = function(grunt) {
 					'./js/libs/modernizr-2.7.1.js',
 					'./js/common.js'
 				],
-				dest: './js/min/common.concat.js'
+				dest: './js/common.concat.js'
 			}
 		},
 
-		// Grunt uglify
-		// https://www.npmjs.org/package/grunt-contrib-uglify
+		// Grunt uglify https://www.npmjs.org/package/grunt-contrib-uglify
 		uglify: {
 			options: {
 				banner: '<%= meta.banner %>'
@@ -165,17 +156,25 @@ module.exports = function(grunt) {
 					// sourceMap: true,
 					sourceMapName: './js/common.js.map'
 				},
-				src: './js/min/common.concat.js',
-				dest: './js/min/common.js',	
+				src: './js/common.concat.js',
+				dest: './js/common.min.js',	
 			}
 		},
 
-		// Grunt browser-sync
-		// https://www.npmjs.org/package/grunt-browser-sync
+		// Grunt browser-sync https://www.npmjs.org/package/grunt-browser-sync
 		browserSync: {
 			dev: {
 				options: {
 					watchTask: true,
+					debugInfo: true,
+					excludedFileTypes: ["map"],
+					ghostMode: {
+						clicks: false,
+						scroll: false,
+						links: false,
+						forms: false
+					},
+					// Use either the proxy or server setting
 					// proxy: 'grunt-test.local.cassius.nl'
 					server: {
 						baseDir: './'
@@ -192,8 +191,7 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Grunt clean
-		// https://www.npmjs.org/package/grunt-contrib-clean
+		// Grunt clean https://www.npmjs.org/package/grunt-contrib-clean
 		clean: {
 			cssmap: {
 				src: ['./css/**/*.map'],
@@ -214,14 +212,31 @@ module.exports = function(grunt) {
 	3. Registered Grunt tasks
 	**********************************************************************/
 
-	// Server (proxy) and file `watcher` livereload for local development
-	grunt.registerTask('serve', ['browserSync', 'watch']);
+	grunt.registerTask('serve', [
+		'browserSync',
+		 'watch'
+	]);
 
-	// Aliasses, sub-tasks
-	grunt.registerTask('build-sass', ['sass:dist', 'cssmin']);
-	grunt.registerTask('build-js', ['concat', 'uglify', 'clean:jsconcat']);
-	grunt.registerTask('build-img', ['imagemin', 'svgmin']);
+	grunt.registerTask('build-sass', [
+		'sass:dist',
+		'cssmin'
+	]);
 
-	// Run once for deployment, build everything using above aliasses and run a cleanup task
-	grunt.registerTask('default', ['build-sass', 'build-js', 'build-img', 'clean']);
+	grunt.registerTask('build-js', [
+		'concat',
+		'uglify',
+		'clean:jsconcat'
+	]);
+
+	grunt.registerTask('build-img', [
+		'imagemin',
+		'svgmin'
+	]);
+
+	grunt.registerTask('default', [
+		'build-sass',
+		'build-js',
+		'build-img',
+		'clean'
+	]);
 };
