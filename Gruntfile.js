@@ -1,5 +1,5 @@
 /*
-	Dutchwebworks Grunt boilerplate, march 2015
+	Dutchwebworks Grunt boilerplate, april 2015
 	https://github.com/dutchwebworks/grunt-boilerplate
 */
 
@@ -15,6 +15,9 @@ module.exports = function(grunt) {
 		scope: 'devDependencies'
 	});
 
+	// Display the elapsed execution time of grunt tasks
+	require('time-grunt')(grunt);
+	
 	/**********************************************************************
 	2. Configure Grunt tasks and their targets
 	**********************************************************************/
@@ -27,7 +30,7 @@ module.exports = function(grunt) {
 				' * ' + 'Author: <%= pkg.author %>\n' +
 				' * ' + 'Version: <%= pkg.version %>\n' +
 				' * ' + 'Date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-				' */\n'
+				' */'
 			,
 		},
 
@@ -38,7 +41,7 @@ module.exports = function(grunt) {
 					spawn: false
 				},
 				files: './sass/**/*.scss',
-				tasks: ['sass:dev']
+				tasks: ['newer:sass:dev']
 			}
 		},
 
@@ -74,9 +77,6 @@ module.exports = function(grunt) {
 
 		// Grunt contrib cssmin https://www.npmjs.org/package/grunt-contrib-cssmin
 		cssmin: {
-			options: {
-				banner: '<%= meta.banner %>'
-			},
 			style: {
 				files: {
 					'./css/style.min.css': [
@@ -161,6 +161,19 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Grunt banner https://www.npmjs.com/package/grunt-banner
+		usebanner: {
+			banner: {
+				options: {
+					position: 'top',
+					banner: '<%= meta.banner %>',
+					linebreak: true
+				},
+				files: {
+					src: ['./css/style.min.css']
+				}
+			}
+		},
 		// Grunt browser-sync https://www.npmjs.org/package/grunt-browser-sync
 		browserSync: {
 			dev: {
@@ -219,18 +232,19 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('build-sass', [
 		'sass:dist',
-		'cssmin'
+		'newer:cssmin',
+		'usebanner'
 	]);
 
 	grunt.registerTask('build-js', [
-		'concat',
-		'uglify',
+		'newer:concat',
+		'newer:uglify',
 		'clean:jsconcat'
 	]);
 
 	grunt.registerTask('build-img', [
-		'imagemin',
-		'svgmin'
+		'newer:imagemin',
+		'newer:svgmin'
 	]);
 
 	grunt.registerTask('default', [
