@@ -30,7 +30,7 @@ module.exports = function(grunt) {
 				' * ' + 'Author: <%= pkg.author %>\n' +
 				' * ' + 'Version: <%= pkg.version %>\n' +
 				' * ' + 'Date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-				' */'
+				' */\n'
 			,
 		},
 
