@@ -32,9 +32,7 @@ Download the files from this boilerplate and place them in the root of the (loca
 
 Open a **Terminal** (MS-Dos) command-line window. Then `cd` into the **project root directory** (where the `package.json` file resides). Then run the command below, which will read the `package.json` file, and install the required `devDependencies` for this Grunt boilerplate.
 
-*On Windows, omit the `sudo` part.*
-
-	sudo npm install	
+	npm install
 
 ### Version-control
 
