@@ -1,6 +1,6 @@
 # Dutchwebworks Grunt Boilerplate
 
-*By Dennis Burger, april 2015*
+*By Dennis Burger, april 2016*
 
 This is a **starter web boilerplate** using Grunt as a build system. It contains the following components: 
 
